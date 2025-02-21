@@ -57,16 +57,16 @@ export const LoginPage = () => {
         <Box
         sx={{
           height:400,
-          width: 400,
           justifyContent: 'center',
           alignItems:'center',
           display:'flex',
           bgcolor: 'white',
           borderRadius: 1,
-          mt: 2,
           mb: 5,
           mx: 'auto'
         }}
+        marginTop={{xs: 15, sm: 2, md: 2, lg: 2 }}
+        width={{xs: 350, sm: 400, md: 400, lg:400 }}
 
         >
           <Grid2 container rowSpacing={1} textAlign="center">

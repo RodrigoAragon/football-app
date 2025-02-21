@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Box, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
-import { getLeague, getStandings } from "../assets/footballAPI/footballApi";
+import { getStandings } from "../assets/footballAPI/footballApi";
 import { LoadingPage } from "./LoadingPage";
 
 export const LeagueTable = ({leagueId}) => {
@@ -12,15 +12,13 @@ export const LeagueTable = ({leagueId}) => {
   const fetchStandings = async() =>{
     try {
       setLoading(true)
-      const respLeague = await getLeague(leagueId)
       const resp = await getStandings(leagueId)
-      setLoading(false)
-      console.log(respLeague)
       console.log(resp)
       setLeagueInfo(resp[0].league)
       setTeams(resp[0].league.standings[0])
+      setLoading(false)
     } catch (error) {
-      console.log(error)
+      throw new Error(error);
     }
   }
 
@@ -32,7 +30,7 @@ export const LeagueTable = ({leagueId}) => {
   return (
     <>
       {
-        isLoading
+        (teams.length === 0 || isLoading)
         ? <LoadingPage/>
         : <>
               <Box
@@ -85,7 +83,7 @@ export const LeagueTable = ({leagueId}) => {
 
                     <TableBody>
                       {teams.map((team) => (
-                          <TableRow key={team.team.id} sx={{bgcolor: (team.rank === 1)? 'lightgreen' : 'white'}}>
+                          <TableRow key={team.team.id} sx={{bgcolor: (team.description && team.description.includes('Relegation')) ? 'lightcoral' : (team.rank === 1) ? 'lightgreen' : 'white'}}>
                             <TableCell className="menuitem">{team.rank}</TableCell>
                             <TableCell className="menuitem"> <img width="30px" height="30px" src={`https://media.api-sports.io/football/teams/${team.team.id}.png`}/> {team.team.name}</TableCell>
                             <TableCell className="menuitem">{team.points}</TableCell>

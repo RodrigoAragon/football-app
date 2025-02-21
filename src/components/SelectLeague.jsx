@@ -7,6 +7,7 @@ import { TeamBox } from "./TeamBox"
 import { PickTeamBox } from "./PickTeamBox"
 import { SignOutBox } from "./SignOutBox"
 
+
 export const SelectLeague = () => {
 
     const [leagueId, setLeagueId] = useState(0)
@@ -26,7 +27,7 @@ export const SelectLeague = () => {
             setFavoriteTeam(favTeam)
             setFetchingTeam(false)
         } catch (error) {
-            console.log(error)
+            throw new Error(error)
         }
     }
 

@@ -5,7 +5,7 @@ export const getStandings = async(leagueId) =>{
         const resp = await fetch(`https://v3.football.api-sports.io/standings?league=${leagueId}&season=2023`, {
             method: "GET",
             headers: {
-                "x-apisports-key": "25c33c919d38a77bdd9d7480d8b7a2a5"
+                "x-apisports-key": import.meta.env.VITE_API_KEY_FOOTBALL_API
             }
         })
 
@@ -14,24 +14,6 @@ export const getStandings = async(leagueId) =>{
         return response
 
     } catch (error) {
-        console.log(error)
-    }
-}
-
-export const getLeague = async (leagueId) =>{
-    try {
-        const resp = await fetch(`https://v3.football.api-sports.io/leagues?league=${leagueId}`, {
-            method: "GET",
-            headers: {
-                "x-apisports-key": "25c33c919d38a77bdd9d7480d8b7a2a5"
-            }
-        })
-
-        const {response} = await resp.json()
-
-        return response;
-
-    } catch (error) {
-        console.log(error)
+        throw new Error(error)
     }
 }
