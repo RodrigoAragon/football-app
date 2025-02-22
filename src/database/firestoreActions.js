@@ -1,4 +1,4 @@
-import { doc, getDoc, setDoc } from "firebase/firestore"; 
+import { deleteDoc, doc, getDoc, setDoc } from "firebase/firestore"; 
 import { db } from "../firebase/firebaseInit";
 
 
@@ -25,8 +25,18 @@ const getFavoriteTeam = async(user) =>{
     }
 }
 
+const deleteFavoriteTeam = async(user) =>{
+    try {
+        const docRef = await deleteDoc(doc(db, "users",`${user.uid}`));
+        return docRef.data()
+    } catch (e) {
+        console.error("Error adding document: ", e);
+    }
+}
+
 
 export{
     setFavoriteTeam,
     getFavoriteTeam,
+    deleteFavoriteTeam
 }

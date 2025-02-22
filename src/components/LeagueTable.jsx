@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Box, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
-import { getStandings } from "../assets/footballAPI/footballApi";
+import { getStandings } from "../helpers/footballApi";
 import { LoadingPage } from "./LoadingPage";
 
 export const LeagueTable = ({leagueId}) => {
@@ -13,7 +13,6 @@ export const LeagueTable = ({leagueId}) => {
     try {
       setLoading(true)
       const resp = await getStandings(leagueId)
-      console.log(resp)
       setLeagueInfo(resp[0].league)
       setTeams(resp[0].league.standings[0])
       setLoading(false)
@@ -83,7 +82,22 @@ export const LeagueTable = ({leagueId}) => {
 
                     <TableBody>
                       {teams.map((team) => (
-                          <TableRow key={team.team.id} sx={{bgcolor: (team.description && team.description.includes('Relegation')) ? 'lightcoral' : (team.rank === 1) ? 'lightgreen' : 'white'}}>
+                          <TableRow key={team.team.id} 
+                              sx={{
+                                bgcolor: 
+                                  (team.description && team.description.includes('Relegation')) 
+                                  ? 'lightcoral' 
+                                  : (team.description && team.description.includes('Champions')) 
+                                  ? 'lightblue'
+                                  : (team.description && team.description.includes('Europa League'))
+                                  ? 'lightsalmon'
+                                  : (team.description && team.description.includes('Conference'))
+                                  ? 'lightgreen'
+                                  : (team.rank === 1)
+                                  ? 'gold'
+                                  : 'white'
+                              }}
+                          >
                             <TableCell className="menuitem">{team.rank}</TableCell>
                             <TableCell className="menuitem"> <img width="30px" height="30px" src={`https://media.api-sports.io/football/teams/${team.team.id}.png`}/> {team.team.name}</TableCell>
                             <TableCell className="menuitem">{team.points}</TableCell>
@@ -107,3 +121,8 @@ export const LeagueTable = ({leagueId}) => {
     </>
   );
 };
+
+
+LeagueTable.propTypes ={
+  leagueId: Number
+}

@@ -2,7 +2,7 @@ import { Box, CircularProgress, FormControl, Grid2, InputLabel, MenuItem, Select
 import { useEffect, useState } from "react"
 import { LeagueTable } from "./LeagueTable"
 import {useSelector } from "react-redux"
-import { getFavoriteTeam } from "../database/firestoreActions"
+import { deleteFavoriteTeam, getFavoriteTeam } from "../database/firestoreActions"
 import { TeamBox } from "./TeamBox"
 import { PickTeamBox } from "./PickTeamBox"
 import { SignOutBox } from "./SignOutBox"
@@ -10,7 +10,7 @@ import { SignOutBox } from "./SignOutBox"
 
 export const SelectLeague = () => {
 
-    const [leagueId, setLeagueId] = useState(0)
+    const [leagueId, setLeagueId] = useState('')
     const [favoriteTeam, setFavoriteTeam] = useState()
     const [fetchingTeam, setFetchingTeam] = useState(false)
     const {user} = useSelector(state => state)
@@ -23,13 +23,21 @@ export const SelectLeague = () => {
         try {
             setFetchingTeam(true)
             const favTeam = await getFavoriteTeam(user)
-            console.log(favTeam)
             setFavoriteTeam(favTeam)
             setFetchingTeam(false)
         } catch (error) {
             throw new Error(error)
         }
     }
+
+    const deleteTeam = async() =>{
+        try {
+          await deleteFavoriteTeam(favoriteTeam.team.id)
+          setFavoriteTeam()
+        } catch (error) {
+          throw new Error(error)
+        }
+      }
 
     useEffect(() => {
       fetchFavoriteTeam()
@@ -86,7 +94,7 @@ export const SelectLeague = () => {
                 {
                     fetchingTeam
                     ? <Box bgcolor='white' borderRadius={1} alignContent='center' textAlign='center' width={200} height={150}><CircularProgress /></Box>
-                    : (favoriteTeam)? <TeamBox favoriteTeam={favoriteTeam}/> : <PickTeamBox/>
+                    : (favoriteTeam)? <TeamBox favoriteTeam={favoriteTeam} deleteTeam={deleteTeam}/> : <PickTeamBox/>
                 }
             </Grid2>
             
@@ -95,7 +103,7 @@ export const SelectLeague = () => {
         </Grid2>
 
         {
-            leagueId === 0
+            leagueId === ''
             ? <></>
             : <LeagueTable leagueId={leagueId}/>
         }

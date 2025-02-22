@@ -1,13 +1,13 @@
 import { Box, Button, CircularProgress, FormControl, Grid2, InputLabel, MenuItem, Select } from "@mui/material"
 import { useEffect, useState } from "react"
-import { getStandings } from "../assets/footballAPI/footballApi"
+import { getStandings } from '../helpers/footballApi'
 import { useSelector } from "react-redux"
 import { setFavoriteTeam } from "../database/firestoreActions"
 import { useNavigate } from "react-router"
 
 export const SelectClub = () => {
 
-  const [leagueId, setLeagueId] = useState(0)
+  const [leagueId, setLeagueId] = useState('')
   const [teams, setTeams] = useState([])
   const [team, setTeam] = useState(null)
   const [isLoading, setLoading] = useState(false)
@@ -17,7 +17,7 @@ export const SelectClub = () => {
   const navigate = useNavigate()
 
   const fetchTeams = async() =>{
-    if(leagueId === 0)
+    if(leagueId === '')
       return
     try {
       setLoading(true)
