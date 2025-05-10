@@ -36,7 +36,7 @@ const registerEmailPassword = async(email, password) =>{
 
 }
 
-const startSignOut = async() =>{
+const accountSignOut = async() =>{
     try {
         await signOut(auth);
     } catch (error) {
@@ -48,5 +48,5 @@ export {
     loginEmailPassword,
     loginWithGoogle,
     registerEmailPassword,
-    startSignOut
+    accountSignOut
 }

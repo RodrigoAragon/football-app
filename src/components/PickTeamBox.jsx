@@ -5,15 +5,13 @@ export const PickTeamBox = () => {
   return (
     <Box
         sx={{
-            bgcolor:"white",
             width: 200,
-            height: 150,
             borderRadius:1,
             alignContent: 'center',
             textAlign: 'center',
-
+            marginLeft:65,
+            marginTop:1
         }}
-                
     >
         ¿Tenés un equipo favorito?
                 
@@ -21,7 +19,7 @@ export const PickTeamBox = () => {
             sx={{mt:1}}
             to="/select-club"      
         >
-            Asignaté tu club favorito aquí
+            Elegí tu club aquí
         </NavLink>
 
     </Box>
